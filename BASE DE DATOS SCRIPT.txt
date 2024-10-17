@@ -1,0 +1,77 @@
+BASE DE DATOS SCRIPT:
+
+CREATE:
+- Para las tablas que no tienen relación:
+USE bd_productos7;
+INSERT INTO tbl_categoria (id_categoria, nombre) VALUES (NULL,'lechuga')
+
+
+- Para cuando se relacionen las tablas:
+USE bd_productos7;
+INSERT INTO tbl_sub_categoria (id_sub_categoria,id_categoria, nombre) VALUES (NULL, 1, 'Lechuga')
+
+-Para cuando sea la tabla principal (siempre al final):
+USE bd_productos7;
+INSERT INTO tbl_sub_categoria (id_sub_categoria,id_categoria, nombre) VALUES (NULL, 1, 'Lechuga') 
+
+En el INSERT INTO se colocan los campos en orden y en values se llenan los datos en el orden correspondiente a los campos
+
+
+SELECT:
+- Para seleccionar una tabla, se usa el * cuando queremos seleccionar TODA la tabla
+SELECT * FROM `tbl_estudiantes`;
+- aquí se usa una condición, la cual es que se muestre el nombre, apellido y fecha de ingreso de los que tienen el código de género 1, en este caso, mujeres
+SELECT nombres, apellidos, fecha_de_ingreso
+FROM `tbl_estudiantes`
+WHERE tbl_estudiantes.id_genero = 1;
+
+seleccionar de la tabla estudiantes los siguientes campos: nombre, apellido, fecha de ingreso, semestre, saldo deuda los estudiantes que cumplan con la siguiente condición:
+saldo duda sea mayor a 100mil pesos
+semestre esté por encima de 6 
+donde la fecha esté en esté en el 17 de septiembre
+
+- Para seleccionar cuando lo que queremos buscar esté relacionado con otra tabla (que no esté en la principal)
+se debe especificar la tabla y el campo que necesitamos
+
+SELECT tbl_estudiantes.nombre, tbl_estudiantes.apellido, tbl_genero.nombre
+FROM tbl_estudiante (primera tabla)
+
+(Inner join se utiliza para unir dos tablas o más)
+JOIN tbl_genero (segunda tabla)
+
+
+ON tbl_estudiantes.id_genero = tbl_genero.id_genero
+(en la tabla principal.la clave foránea que conecta con la tabla que queremos = la tabla relacionada.la clave primaria que conecta con la foránea de la primera)
+
+WHERE tbl_estudiante.semestre > 2;
+
+para copiar y pegar: 
+SELECT tbl_estudiantes.nombres, tbl_estudiantes.apellidos, tbl_carrera.nombre 
+FROM tbl_estudiantes 
+JOIN tbl_carrera 
+ON tbl_estudiantes.id_carrera = tbl_carrera.id_carrera 
+WHERE tbl_estudiantes.semestre > 2;
+
+para cuando se relaciona con varias tablas
+SELECT tbl_estudiantes.nombres, tbl_estudiantes.apellidos, tbl_carrera.nombre, tbl_genero.nombre 
+FROM tbl_estudiantes 
+JOIN tbl_carrera 
+ON tbl_estudiantes.id_carrera = tbl_carrera.id_carrera 
+JOIN tbl_facultad
+ON tbl_carrera.id_genero = tbl_genero.id_genero
+WHERE tbl_estudiantes.semestre > 2;
+
+para que los encabezados queden nombrados personalmente (AS)
+SELECT tbl_estudiantes.nombres AS Nombre_estudiante, tbl_estudiantes.apellidos AS Apellido_estudiante,tbl_carrera.id_carrera AS ID_carrera, tbl_carrera.nombre AS Nombre_carrera, tbl_facultad.nombre AS Nombre_facultad
+FROM tbl_estudiantes 
+JOIN tbl_carrera 
+ON tbl_estudiantes.id_carrera = tbl_carrera.id_carrera 
+JOIN tbl_facultad
+ON tbl_carrera.id_facultad = tbl_facultad.id_facultad
+WHERE tbl_estudiantes.semestre > 2;
+
+
+UPDATE
+
+USE bd_estudiante;
+UPDATE  tbl_facultad SET nombre = 'Ciencias' WHERE tbl_facultad.id_facultad = 5;
