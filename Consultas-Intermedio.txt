@@ -1,0 +1,209 @@
+1. Obtener el nombre de los productos junto con el nombre de su vendedor.
+
+SELECT tbl_productos.nombre, tbl_vendedor.nombre
+FROM tbl_productos
+JOIN tbl_vendedor 
+ON tbl_productos.identificacion_vendedor = tbl_vendedor.identificacion_vendedor;
+
+
+2. Mostrar el nombre de los productos y el nombre de la sede donde se vendieron.
+
+SELECT tbl_productos.nombre, tbl_sede.nombre
+FROM tbl_productos
+JOIN tbl_sede
+ON tbl_productos.id_sede = tbl_sede.id_sede;
+
+
+3. Listar los productos con un valor de venta mayor a $50.00.
+
+PENDIENTE
+
+
+4. Mostrar los productos que no han sido vendidos en los últimos 30 días.
+
+SELECT nombre 
+FROM tbl_productos
+WHERE fecha_de_ultima_venta IS NULL 
+OR DATEDIFF(CURDATE(), fecha_de_ultima_venta) > 30;
+
+
+5. Obtener el nombre del producto, la existencia y el nombre de la unidad de medida.
+
+SELECT tbl_productos.nombre, tbl_productos.existencia, tbl_unidad_de_medida.nombre
+FROM tbl_productos
+JOIN tbl_unidad_de_medida
+ON tbl_productos.id_unidad_de_medida = tbl_unidad_de_medida.id_unidad_de_medida;
+
+
+6. Listar los productos junto con el nombre de la ciudad donde fueron vendidos.
+
+SELECT tbl_productos.nombre, tbl_ciudad.nombre
+FROM tbl_productos
+JOIN tbl_ciudad
+ON tbl_productos.id_ciudad = tbl_ciudad.id_ciudad;
+
+
+
+7. Obtener el nombre del vendedor, su sede y la cantidad total de productos que ha vendido.
+
+SELECT tbl_vendedor.nombre, 
+       tbl_sede.nombre, 
+       (SELECT SUM(precio_venta) 
+        FROM tbl_productos 
+        WHERE identificacion_vendedor = tbl_vendedor.identificacion_vendedor 
+          AND id_sede = tbl_sede.id_sede) AS cantidad_total_vendida
+FROM tbl_vendedor
+JOIN tbl_productos ON tbl_productos.identificacion_vendedor = tbl_vendedor.identificacion_vendedor
+JOIN tbl_sede ON tbl_productos.id_sede = tbl_sede.id_sede;
+
+
+8. Calcular el valor total de las ventas realizadas por cada vendedor
+
+SELECT tbl_vendedor.nombre, 
+    (SELECT SUM(precio_venta) 
+     FROM tbl_productos 
+     WHERE identificacion_vendedor = tbl_vendedor.identificacion_vendedor) AS total_ventas
+FROM tbl_vendedor;
+
+
+9. Mostrar el nombre de los productos junto con su subcategoría y categoría.
+
+
+SELECT tbl_productos.nombre AS nombre_producto, 
+       tbl_sub_categoria.nombre AS nombre_subcategoria, 
+       tbl_categoria.nombre AS nombre_categoria
+FROM tbl_productos
+JOIN tbl_sub_categoria ON tbl_productos.id_sub_categoria = tbl_sub_categoria.id_sub_categoria
+JOIN tbl_categoria ON tbl_sub_categoria.id_categoria = tbl_categoria.id_categoria;
+
+
+
+
+10. Obtener el promedio del valor de venta de los productos por categoría.
+
+SELECT tbl_categoria.nombre AS nombre_categoria, 
+       (SELECT AVG(precio_venta) 
+        FROM tbl_productos 
+        JOIN tbl_sub_categoria ON tbl_productos.id_sub_categoria = tbl_sub_categoria.id_sub_categoria 
+        WHERE tbl_sub_categoria.id_categoria = tbl_categoria.id_categoria) AS promedio_precio_venta
+FROM tbl_categoria;
+
+
+
+11. Listar los vendedores que operan en una ciudad específica (por ejemplo, "Bogotá").
+
+SELECT  tbl_vendedor.nombre, 
+        tbl_vendedor.apellidos, 
+        tbl_sede.nombre AS nombre_sede
+FROM tbl_vendedor
+JOIN tbl_productos ON tbl_productos.identificacion_vendedor = tbl_vendedor.identificacion_vendedor
+JOIN tbl_sede ON tbl_productos.id_sede = tbl_sede.id_sede
+JOIN tbl_ciudad ON tbl_sede.codigo_postal = tbl_ciudad.codigo_postal
+WHERE tbl_ciudad.nombre = 'Manizales'; 
+
+
+
+12. Mostrar el nombre de los productos junto con la fecha de su última venta.
+
+
+SELECT nombre, fecha_de_ultima_venta
+FROM tbl_productos;
+
+
+13. Obtener el nombre y el celular de los vendedores que tienen productos registrados en la base de datos.
+
+SELECT DISTINCT tbl_vendedor.nombre, 
+                tbl_vendedor.telefono_celular
+FROM tbl_vendedor
+JOIN tbl_productos ON tbl_productos.identificacion_vendedor = tbl_vendedor.identificacion_vendedor;
+
+(LE FALTA QUE LOS PRODUCTOS ESTÉN REGISTRADOS)
+
+14. Mostrar los productos que tienen una existencia mayor a 100 unidades.
+
+SELECT tbl_productos.nombre, tbl_productos.existencia
+FROM tbl_productos
+WHERE tbl_productos.existencia > 100;
+
+
+Obtener el nombre de los productos cuyo valor de venta es mayor que el precio promedio de todos los productos.
+
+
+
+
+
+
+
+
+CREATE DATABASE bd_productos7;
+USE bd_productos7;
+
+CREATE TABLE tbl_vendedor( 
+    identificacion_vendedor INT NOT NULL,
+    nombre VARCHAR (30) NOT NULL,
+    apellidos VARCHAR (30) NOT NULL,
+    teelefono_celular INT NOT NULL,
+    PRIMARY KEY (identificacion_vendedor)
+)
+
+CREATE TABLE tbl_unidad_de_medida( 
+    id_unidad_de_medida INT NOT NULL AUTO_INCREMENT,
+    nombre VARCHAR (30) NOT NULL,
+    PRIMARY KEY (id_unidad_de_medida)
+)
+
+CREATE TABLE tbl_categoria( 
+    id_categoria INT NOT NULL AUTO_INCREMENT,
+    nombre VARCHAR (30) NOT NULL,
+    PRIMARY KEY (id_categoria)
+)
+
+CREATE TABLE tbl_sub_categoria( 
+    id_sub_categoria INT NOT NULL AUTO_INCREMENT,
+    nombre VARCHAR (30) NOT NULL,
+    id_categoria INT NOT NULL,
+    PRIMARY KEY (id_sub_categoria),
+    FOREIGN KEY (id_categoria) REFERENCES tbl_categoria (id_categoria)
+)
+
+CREATE TABLE tbl_departamento( 
+    id_departamento INT NOT NULL,
+    nombre VARCHAR (30) NOT NULL,
+    PRIMARY KEY (id_departamento),
+    FOREIGN KEY (tbl_departamento) REFERENCES tbl_departamento (id_departamento)
+)
+
+CREATE TABLE tbl_ciudad( 
+    codigo_postal INT NOT NULL,
+    nombre VARCHAR (30) NOT NULL,
+    departamento VARCHAR (30) NOT NULL,
+    PRIMARY KEY (codigo_postal),
+    FOREIGN KEY (tbl_departamento) REFERENCES tbl_departamento (id_departamentol)
+)
+
+CREATE TABLE tbl_sede( 
+    id_sede INT NOT NULL AUTO_INCREMENT,
+    nombre VARCHAR (30) NOT NULL,
+    ciudad VARCHAR (30) NOT NULL,
+    PRIMARY KEY (id_sub_categoria),
+    FOREIGN KEY (tbl_ciudad) REFERENCES tbl_ciudad (codigo_postal)
+)
+
+
+CREATE TABLE tbl_productos( 
+codigo_producto INT NOT NULL AUTO_INCREMENT,
+nombre VARCHAR (30) NOT NULL,
+precio_costo DECIMAL(10,2) NOT NULL,
+precio_venta DECIMAL(10,2) NOT NULL,
+id_sub_categoria INT NOT NULL,
+existencia INT NOT NULL,
+id_unidad_de_medida INT NOT NULL,
+identificacion_vendedor INT NOT NULL,
+fecha_de_ultima_venta DATE,
+id_sede INT NOT NULL,
+PRIMARY KEY (codigo_producto),
+FOREIGN KEY (id_sub_categoria) REFERENCES tbl_sub_categoria (id_sub_categoria),
+FOREIGN KEY (id_unidad_de_medida) REFERENCES tbl_unidad_de_medida (id_unidad_de_medida),
+FOREIGN KEY (identificacion_vendedor) REFERENCES tbl_vendedor (identificacion_vendedor),
+FOREIGN KEY (id_sede) REFERENCES tbl_sede (id_sede),
+)
