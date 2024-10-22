@@ -5,6 +5,29 @@ FROM tbl_productos
 JOIN tbl_vendedor 
 ON tbl_productos.identificacion_vendedor = tbl_vendedor.identificacion_vendedor;
 
+*************************
+SELECT tbl_productos.nombre, tbl_vendedor.nombre:
+
+tbl_productos.nombre: Selecciona el campo nombre de la tabla tbl_productos, que representa el nombre de los productos.
+tbl_vendedor.nombre: Selecciona el campo nombre de la tabla tbl_vendedor, que representa el nombre de los vendedores.
+Así que, en el resultado, obtendrás dos columnas: una con los nombres de los productos y otra con los nombres de los vendedores.
+
+FROM tbl_productos:
+
+Indica que los datos iniciales se van a extraer de la tabla tbl_productos.
+JOIN tbl_vendedor:
+
+JOIN es una cláusula que combina filas de dos tablas basadas en una condición de relación. En este caso, estás combinando la tabla tbl_productos con la tabla tbl_vendedor.
+ON tbl_productos.identificacion_vendedor = tbl_vendedor.identificacion_vendedor:
+
+Esta es la condición de unión (ON). Dice que los datos de ambas tablas se deben combinar cuando el valor de la columna identificacion_vendedor en la tabla tbl_productos sea
+ igual al valor de la columna identificacion_vendedor en la tabla tbl_vendedor.
+Es decir, por cada producto, se va a buscar el vendedor que tiene la misma identificacion_vendedor y combinar sus datos.
+**************************
+
+
+
+
 
 2. Mostrar el nombre de los productos y el nombre de la sede donde se vendieron.
 
@@ -12,11 +35,29 @@ SELECT tbl_productos.nombre, tbl_sede.nombre
 FROM tbl_productos
 JOIN tbl_sede
 ON tbl_productos.id_sede = tbl_sede.id_sede;
+**************************
+tbl_productos.nombre: Selecciona la columna nombre de la tabla tbl_productos, que contiene el nombre del producto.
+tbl_sede.nombre: Selecciona la columna nombre de la tabla tbl_sede, que contiene el nombre de la sede donde se vendió el producto.
+FROM tbl_productos:
+
+Esta parte indica que la tabla principal es tbl_productos, desde la cual se hará la consulta.
+JOIN tbl_sede:
+
+Aquí se indica que se quiere hacer un "JOIN" (una combinación) con la tabla tbl_sede. Esto une las dos tablas (tbl_productos y tbl_sede), permitiendo combinar información de ambas.
+ON tbl_productos.id_sede = tbl_sede.id_sede:
+
+Esta es la condición de la unión (JOIN). Significa que las filas de ambas tablas se combinan cuando los valores de id_sede de tbl_productos coinciden con los valores de id_sede en tbl_sede.
+En otras palabras, para cada producto en tbl_productos, se busca la sede correspondiente en tbl_sede que tenga el mismo id_sede.
+***************************
+
+
 
 
 3. Listar los productos con un valor de venta mayor a $50.00.
 
 PENDIENTE
+
+
 
 
 4. Mostrar los productos que no han sido vendidos en los últimos 30 días.
@@ -25,6 +66,30 @@ SELECT nombre
 FROM tbl_productos
 WHERE fecha_de_ultima_venta IS NULL 
 OR DATEDIFF(CURDATE(), fecha_de_ultima_venta) > 30;
+**********************************************
+SELECT nombre:
+
+Esto indica que queremos seleccionar los nombres de los productos. El campo nombre se refiere a los productos almacenados en la tabla tbl_productos.
+FROM tbl_productos:
+
+Especifica la tabla de donde se están obteniendo los datos, en este caso, tbl_productos.
+WHERE fecha_de_ultima_venta IS NULL:
+
+Este filtro busca productos que nunca han sido vendidos, es decir, aquellos cuya columna fecha_de_ultima_venta es NULL. Esto significa que no tienen una fecha registrada para la última venta.
+OR DATEDIFF(CURDATE(), fecha_de_ultima_venta) > 30:
+
+Aquí se está utilizando la función DATEDIFF, que calcula la diferencia entre dos fechas.
+CURDATE(): Devuelve la fecha actual (el día de hoy).
+fecha_de_ultima_venta: Es la fecha en la que se vendió el producto por última vez.
+DATEDIFF(CURDATE(), fecha_de_ultima_venta): Calcula cuántos días han pasado desde la última venta del producto hasta el día de hoy.
+> 30: Esto filtra los productos cuya última venta fue hace más de 30 días.
+Condición combinada:
+
+OR: Significa que queremos productos que cumplan al menos una de las siguientes condiciones:
+fecha_de_ultima_venta IS NULL: Los productos que nunca han sido vendidos.
+DATEDIFF(CURDATE(), fecha_de_ultima_venta) > 30: Los productos que se vendieron por última vez hace más de 30 días.
+************************************************
+
 
 
 5. Obtener el nombre del producto, la existencia y el nombre de la unidad de medida.
@@ -33,6 +98,26 @@ SELECT tbl_productos.nombre, tbl_productos.existencia, tbl_unidad_de_medida.nomb
 FROM tbl_productos
 JOIN tbl_unidad_de_medida
 ON tbl_productos.id_unidad_de_medida = tbl_unidad_de_medida.id_unidad_de_medida;
+************************************************
+tbl_productos.nombre: el nombre del producto.
+tbl_productos.existencia: la cantidad en existencia del producto.
+tbl_unidad_de_medida.nombre: el nombre de la unidad de medida (por ejemplo, "kg", "litros", etc.).
+FROM tbl_productos:
+
+Indica que la consulta comienza tomando datos de la tabla tbl_productos.
+JOIN tbl_unidad_de_medida:
+
+Aquí se indica que se debe hacer una combinación (o "unión") de la tabla tbl_productos con la tabla tbl_unidad_de_medida. Un JOIN se utiliza cuando deseas combinar filas
+de dos tablas diferentes basadas en una columna común entre ellas.
+ON tbl_productos.id_unidad_de_medida = tbl_unidad_de_medida.id_unidad_de_medida:
+
+Esta parte especifica la condición que debe cumplirse para que las filas de ambas tablas se combinen. En este caso, las filas se combinan cuando el valor de id_unidad_de_medida
+ en tbl_productos coincide con el valor de id_unidad_de_medida en tbl_unidad_de_medida.
+La columna id_unidad_de_medida es la clave que relaciona las dos tablas. Es probable que esta columna sea una clave foránea en tbl_productos, y una clave primaria en tbl_unidad_de_medida.
+************************************************
+
+
+
 
 
 6. Listar los productos junto con el nombre de la ciudad donde fueron vendidos.
@@ -41,6 +126,28 @@ SELECT tbl_productos.nombre, tbl_ciudad.nombre
 FROM tbl_productos
 JOIN tbl_ciudad
 ON tbl_productos.id_ciudad = tbl_ciudad.id_ciudad;
+**********************************************
+SELECT tbl_productos.nombre, tbl_ciudad.nombre:
+
+Esta parte define qué columnas deseas mostrar en los resultados.
+tbl_productos.nombre: Selecciona el nombre de los productos desde la tabla tbl_productos.
+tbl_ciudad.nombre: Selecciona el nombre de la ciudad desde la tabla tbl_ciudad.
+FROM tbl_productos:
+
+Aquí se indica la tabla principal de la cual se obtendrán los datos, en este caso, tbl_productos (la tabla que contiene información de los productos).
+JOIN tbl_ciudad:
+
+Este es un INNER JOIN implícito (cuando no se especifica, por defecto es un INNER JOIN), que combina las filas de las tablas tbl_productos y tbl_ciudad.
+La condición de combinación entre ambas tablas se indica después de ON.
+ON tbl_productos.id_ciudad = tbl_ciudad.id_ciudad:
+
+Esta es la condición que une las dos tablas.
+tbl_productos.id_ciudad: Representa una columna en la tabla de productos que almacena la ciudad donde el producto fue vendido.
+tbl_ciudad.id_ciudad: Es la clave primaria de la tabla tbl_ciudad, que identifica de manera única cada ciudad.
+Se usa esta relación para conectar cada producto con su ciudad correspondiente, comparando los valores de id_ciudad en ambas tablas.
+*********************************************
+
+
 
 
 
@@ -55,6 +162,21 @@ SELECT tbl_vendedor.nombre,
 FROM tbl_vendedor
 JOIN tbl_productos ON tbl_productos.identificacion_vendedor = tbl_vendedor.identificacion_vendedor
 JOIN tbl_sede ON tbl_productos.id_sede = tbl_sede.id_sede;
+************************************************
+tbl_vendedor.nombre: Se selecciona el nombre del vendedor de la tabla tbl_vendedor.
+tbl_sede.nombre: Se selecciona el nombre de la sede de la tabla tbl_sede.
+(SELECT SUM(precio_venta)...): Esta subconsulta calcula la suma total de los precios de venta (SUM(precio_venta)) de los productos asociados a cada vendedor y sede.
+La subconsulta filtra por los productos que fueron vendidos por ese mismo vendedor y en esa sede en particular, comparando identificacion_vendedor de tbl_vendedor con
+ la columna identificacion_vendedor en tbl_productos, y id_sede de tbl_sede con la columna id_sede en tbl_productos.
+El resultado de esta suma se presenta como cantidad_total_vendida.
+FROM tbl_vendedor: La consulta comienza desde la tabla tbl_vendedor, que contiene la información de los vendedores.
+JOIN tbl_productos ON tbl_productos.identificacion_vendedor = tbl_vendedor.identificacion_vendedor: Se realiza una unión entre tbl_vendedor y tbl_productos, uniendo las filas
+ en las que el identificacion_vendedor de ambas tablas coincide. Esto relaciona cada vendedor con los productos que ha vendido.
+JOIN tbl_sede ON tbl_productos.id_sede = tbl_sede.id_sede: Luego se realiza otra unión entre tbl_productos y tbl_sede, uniendo las filas en las que id_sede de ambas tablas coinciden.
+ Esto relaciona los productos vendidos con la sede donde se vendieron.
+ ************************************************
+
+
 
 
 8. Calcular el valor total de las ventas realizadas por cada vendedor
@@ -64,6 +186,32 @@ SELECT tbl_vendedor.nombre,
      FROM tbl_productos 
      WHERE identificacion_vendedor = tbl_vendedor.identificacion_vendedor) AS total_ventas
 FROM tbl_vendedor;
+************************************************
+FROM tbl_vendedor:
+La consulta obtiene datos de la tabla tbl_vendedor, que contiene información sobre los vendedores, como sus nombres e identificaciones.
+ Esta tabla es la base para listar a cada vendedor y luego calcular el total de ventas de cada uno.
+
+SELECT tbl_vendedor.nombre:
+Esta parte selecciona el nombre del vendedor que queremos mostrar en los resultados.
+
+Subconsulta (Cálculo de las ventas):
+
+sql
+Copy code
+(SELECT SUM(precio_venta) 
+ FROM tbl_productos 
+ WHERE identificacion_vendedor = tbl_vendedor.identificacion_vendedor) AS total_ventas
+SELECT SUM(precio_venta): Esta subconsulta calcula el total de las ventas realizadas por un vendedor. La función SUM() suma el valor de la columna precio_venta en la tabla tbl_productos, que representa
+ el precio al que se vendió cada producto.
+FROM tbl_productos: Se obtiene el valor de precio_venta de la tabla tbl_productos, que contiene información sobre los productos vendidos.
+WHERE identificacion_vendedor = tbl_vendedor.identificacion_vendedor: Esta parte vincula las dos tablas (tbl_productos y tbl_vendedor) utilizando el campo identificacion_vendedor.
+ La condición asegura que solo se sumen las ventas de los productos vendidos por el vendedor específico, es decir, cuando la columna identificacion_vendedor de tbl_productos coincida 
+ con la identificacion_vendedor de tbl_vendedor.
+AS total_ventas:
+La subconsulta completa se etiqueta como total_ventas, que es el alias del resultado de la suma, y se mostrará como una columna adicional en el resultado final.
+****************************************************
+
+
 
 
 9. Mostrar el nombre de los productos junto con su subcategoría y categoría.
@@ -75,7 +223,23 @@ SELECT tbl_productos.nombre AS nombre_producto,
 FROM tbl_productos
 JOIN tbl_sub_categoria ON tbl_productos.id_sub_categoria = tbl_sub_categoria.id_sub_categoria
 JOIN tbl_categoria ON tbl_sub_categoria.id_categoria = tbl_categoria.id_categoria;
+*********************************************************
+SELECT: Esta parte selecciona las columnas que deseas obtener de la base de datos:
 
+tbl_productos.nombre AS nombre_producto: Se obtiene el nombre del producto desde la tabla tbl_productos y se le asigna un alias nombre_producto para que sea más fácil de leer en los resultados.
+tbl_sub_categoria.nombre AS nombre_subcategoria: Se obtiene el nombre de la subcategoría desde la tabla tbl_sub_categoria, y se le asigna el alias nombre_subcategoria.
+tbl_categoria.nombre AS nombre_categoria: Se obtiene el nombre de la categoría desde la tabla tbl_categoria, y se le asigna el alias nombre_categoria.
+FROM tbl_productos: Especifica que los datos principales vienen de la tabla tbl_productos, que contiene la lista de productos.
+
+JOIN tbl_sub_categoria ON tbl_productos.id_sub_categoria = tbl_sub_categoria.id_sub_categoria:
+
+Se hace una unión interna (JOIN) entre la tabla tbl_productos y la tabla tbl_sub_categoria.
+La condición de unión es que el valor de id_sub_categoria en tbl_productos debe coincidir con el valor de id_sub_categoria en tbl_sub_categoria. Esto relaciona cada producto con su subcategoría.
+JOIN tbl_categoria ON tbl_sub_categoria.id_categoria = tbl_categoria.id_categoria:
+
+Se realiza otra unión interna entre la tabla tbl_sub_categoria y la tabla tbl_categoria.
+La condición de unión es que id_categoria en tbl_sub_categoria debe coincidir con id_categoria en tbl_categoria, lo que permite obtener la categoría a la que pertenece cada subcategoría.
+***********************************************************
 
 
 
@@ -87,6 +251,41 @@ SELECT tbl_categoria.nombre AS nombre_categoria,
         JOIN tbl_sub_categoria ON tbl_productos.id_sub_categoria = tbl_sub_categoria.id_sub_categoria 
         WHERE tbl_sub_categoria.id_categoria = tbl_categoria.id_categoria) AS promedio_precio_venta
 FROM tbl_categoria;
+****************************************************
+Selección de las categorías
+sql
+Copy code
+SELECT tbl_categoria.nombre AS nombre_categoria,
+Se selecciona el nombre de la categoría de la tabla tbl_categoria.
+El alias AS nombre_categoria se utiliza para que el nombre de la columna en el resultado sea más descriptivo (aunque es opcional).
+2. Subconsulta para obtener el promedio del precio de venta por categoría
+sql
+Copy code
+(SELECT AVG(precio_venta) 
+ FROM tbl_productos 
+ JOIN tbl_sub_categoria ON tbl_productos.id_sub_categoria = tbl_sub_categoria.id_sub_categoria 
+ WHERE tbl_sub_categoria.id_categoria = tbl_categoria.id_categoria) AS promedio_precio_venta
+Subconsulta: Esta parte es una subconsulta dentro de la consulta principal. Su propósito es calcular el promedio (AVG()) del precio de venta (precio_venta) de los productos para cada categoría.
+
+AVG(precio_venta): Calcula el promedio del precio de venta de los productos.
+
+tbl_productos JOIN tbl_sub_categoria: Se hace una unión interna (JOIN) entre las tablas tbl_productos y tbl_sub_categoria. La unión se realiza usando la clave foránea id_sub_categoria, 
+lo que permite acceder a los detalles 
+de la subcategoría a la que pertenece cada producto.
+
+WHERE tbl_sub_categoria.id_categoria = tbl_categoria.id_categoria: Este filtro asegura que se calculen los productos que pertenecen a la categoría actual (tbl_categoria). La condición compara
+ el id_categoria de la subcategoría con el id_categoria de la tabla de categorías principal para cada fila.
+
+3. Tabla principal
+sql
+Copy code
+FROM tbl_categoria;
+La consulta principal se ejecuta sobre la tabla tbl_categoria, lo que significa que se generará una fila por cada categoría en la tabla. Para cada categoría, se mostrará su nombre y 
+el promedio de los precios de venta de los productos asociados a ella.
+*************************************************************
+
+
+
 
 
 
@@ -129,11 +328,13 @@ WHERE tbl_productos.existencia > 100;
 Obtener el nombre de los productos cuyo valor de venta es mayor que el precio promedio de todos los productos.
 
 
+SELECT nombre
+FROM tbl_productos
+WHERE precio_venta > (SELECT AVG(precio_venta) FROM tbl_productos);
 
 
-
-
-
+--------------------------------------------
+BASE DE DATOS
 
 CREATE DATABASE bd_productos7;
 USE bd_productos7;
