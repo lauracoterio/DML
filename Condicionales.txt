@@ -1,0 +1,34 @@
+
+- GROUP BY = agrupar por nombre_columna, esto sirve para que no se repitan las cosas y solo las muestre una vez que es lo que se necesita
+
+SELECT * FROM nombre_tabla
+GROUP BY = nombre_columna;
+
+   Ejemplo:
+
+   SELECT * FROM tbl_carrera
+   GROUP BY nombre;
+
+
+
+- ORDER BY = ordenar por nombre_columna, siendo ascendente o descendente (solo funciona en el SELECT), funciona con texto, núméros y fechas
+
+SELECT * FROM nombre_tabla
+  ORDER BY nombre_columna ASC
+
+  Ejemplo:
+
+  SELECT * FROM tbl_estudiante
+  ORDER BY nombres ASC 
+
+
+
+- HAVING = condicional, este se usa después del grpup by, y se usa como un filtro doble, se hace cuando los elementos ya están agrupados
+
+   Ejemplo:
+    
+    SELECT * FROM tbl_estudiante
+    WHERE semestre > 2
+    GROUP BY semestre
+    HAVING semestre > 3
+    ORDER BY nombres ASC;
