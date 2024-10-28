@@ -73,14 +73,13 @@ ON tbl_productos.id_ciudad = tbl_ciudad.id_ciudad;
 7. Obtener el nombre del vendedor, su sede y la cantidad total de productos que ha vendido.
 
 SELECT tbl_vendedor.nombre, 
-       tbl_sede.nombre, 
-       (SELECT SUM(precio_venta) 
-        FROM tbl_productos 
-        WHERE identificacion_vendedor = tbl_vendedor.identificacion_vendedor 
-          AND id_sede = tbl_sede.id_sede) AS cantidad_total_vendida
+       tbl_sede.nombre AS sede_nombre, 
+       COUNT(tbl_productos.codigo_producto) AS total_productos_vendidos
 FROM tbl_vendedor
 JOIN tbl_productos ON tbl_productos.identificacion_vendedor = tbl_vendedor.identificacion_vendedor
-JOIN tbl_sede ON tbl_productos.id_sede = tbl_sede.id_sede;
+JOIN tbl_sede ON tbl_productos.id_sede = tbl_sede.id_sede
+GROUP BY tbl_vendedor.identificacion_vendedor, tbl_sede.nombre;
+
 ************************************************
  ************************************************
 
@@ -90,10 +89,11 @@ JOIN tbl_sede ON tbl_productos.id_sede = tbl_sede.id_sede;
 8. Calcular el valor total de las ventas realizadas por cada vendedor
 
 SELECT tbl_vendedor.nombre, 
-    (SELECT SUM(precio_venta) 
-     FROM tbl_productos 
-     WHERE identificacion_vendedor = tbl_vendedor.identificacion_vendedor) AS total_ventas
-FROM tbl_vendedor;
+       SUM(tbl_productos.precio_venta) AS total_ventas
+FROM tbl_vendedor
+JOIN tbl_productos ON tbl_productos.identificacion_vendedor = tbl_vendedor.identificacion_vendedor
+GROUP BY tbl_vendedor.identificacion_vendedor;
+
 ************************************************
 **************************************************
 
@@ -121,12 +121,11 @@ ON tbl_sub_categoria.id_categoria = tbl_categoria.id_categoria;
 10. Obtener el promedio del valor de venta de los productos por categoría.
 
 SELECT tbl_categoria.nombre AS nombre_categoria, 
-       (SELECT AVG(precio_venta) 
-        FROM tbl_productos 
-        JOIN tbl_sub_categoria 
-        ON tbl_productos.id_sub_categoria = tbl_sub_categoria.id_sub_categoria 
-        WHERE tbl_sub_categoria.id_categoria = tbl_categoria.id_categoria) AS promedio_precio_venta
-FROM tbl_categoria;
+       AVG(tbl_productos.precio_venta) AS promedio_precio_venta
+FROM tbl_categoria
+JOIN tbl_sub_categoria ON tbl_categoria.id_categoria = tbl_sub_categoria.id_categoria
+JOIN tbl_productos ON tbl_sub_categoria.id_sub_categoria = tbl_productos.id_sub_categoria
+GROUP BY tbl_categoria.id_categoria;
 
 ****************************************************
 *************************************************************
