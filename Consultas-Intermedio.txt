@@ -35,6 +35,8 @@ WHERE precio_venta > 50;
 
 4. Mostrar los productos que no han sido vendidos en los últimos 30 días.
 
+el fecha_de_ultima_venta es null para así contar los productos que no se han vendido, lo que significa que pasan de más de los 30 días.
+
 SELECT nombre 
 FROM tbl_productos
 WHERE fecha_de_ultima_venta IS NULL
@@ -74,11 +76,11 @@ ON tbl_productos.id_ciudad = tbl_ciudad.id_ciudad;
 
 SELECT tbl_vendedor.nombre, 
        tbl_sede.nombre AS sede_nombre, 
-       COUNT(tbl_productos.codigo_producto) AS total_productos_vendidos
+       COUNT(tbl_productos.codigo_producto) AS total_productos_vendidos //cuenta la cantidad de productos vendidos
 FROM tbl_vendedor
 JOIN tbl_productos ON tbl_productos.identificacion_vendedor = tbl_vendedor.identificacion_vendedor
 JOIN tbl_sede ON tbl_productos.id_sede = tbl_sede.id_sede
-GROUP BY tbl_vendedor.identificacion_vendedor, tbl_sede.nombre;
+GROUP BY tbl_vendedor.identificacion_vendedor, tbl_sede.nombre; //agrupa los valores que estén repetidos para que no se muestre información innecesaria
 
 ************************************************
  ************************************************
@@ -92,7 +94,7 @@ SELECT tbl_vendedor.nombre,
        SUM(tbl_productos.precio_venta) AS total_ventas
 FROM tbl_vendedor
 JOIN tbl_productos ON tbl_productos.identificacion_vendedor = tbl_vendedor.identificacion_vendedor
-GROUP BY tbl_vendedor.identificacion_vendedor;
+GROUP BY tbl_vendedor.identificacion_vendedor;  //agrupa los valores que estén repetidos para que no se muestre información innecesaria
 
 ************************************************
 **************************************************
@@ -121,11 +123,11 @@ ON tbl_sub_categoria.id_categoria = tbl_categoria.id_categoria;
 10. Obtener el promedio del valor de venta de los productos por categoría.
 
 SELECT tbl_categoria.nombre AS nombre_categoria, 
-       AVG(tbl_productos.precio_venta) AS promedio_precio_venta
+       AVG(tbl_productos.precio_venta) AS promedio_precio_venta //promedia el precio de venta de los productos
 FROM tbl_categoria
-JOIN tbl_sub_categoria ON tbl_categoria.id_categoria = tbl_sub_categoria.id_categoria
+JOIN tbl_sub_categoria ON tbl_categoria.id_categoria = tbl_sub_categoria.id_categoria //se inicia en esta tabla, ya que es la que lleva a la categoría
 JOIN tbl_productos ON tbl_sub_categoria.id_sub_categoria = tbl_productos.id_sub_categoria
-GROUP BY tbl_categoria.id_categoria;
+GROUP BY tbl_categoria.id_categoria; //agrupa los valores que estén repetidos para que no se muestre información innecesaria
 
 ****************************************************
 *************************************************************
