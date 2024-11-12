@@ -1,3 +1,11 @@
+
+
+
+SÓLO FUNCIONANA CUANDO SE TIENE UNA FUNCIÓN MATEMÁTICAAAAAAAA
+
+
+
+
 1. Obtener el nombre de los productos junto con el nombre de su vendedor.
 
 SELECT tbl_productos.nombre, tbl_vendedor.nombre
